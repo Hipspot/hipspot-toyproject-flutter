@@ -112,7 +112,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 thickness: 1,
                 color: Color(0xffF2F2F2),
               ),
-              Row(
+              Column(
                 children: [
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -134,16 +134,57 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                       Padding(
                           padding: EdgeInsets.fromLTRB(20, 16, 0, 0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          child: Column(
                             children: [
-                              HashtagButton(text: '#기획'),
-                              HashtagButton(text: '#디자인'),
-                              HashtagButton(text: '#개발'),
-                              HashtagButton(text: '#FE'),
+                              Row(
+                                children: [
+                                  HashtagButton(text: '#기획'),
+                                  SizedBox(width: 12),
+                                  HashtagButton(text: '#디자인'),
+                                  SizedBox(width: 12),
+                                  HashtagButton(text: '#개발'),
+                                  SizedBox(width: 12),
+                                  HashtagButton(text: '#FE'),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  HashtagButton(text: '#BE'),
+                                  SizedBox(width: 12),
+                                  HashtagButton(text: '#iOS'),
+                                  SizedBox(width: 12),
+                                  HashtagButton(text: '#AOS')
+                                ]
+                              )
                             ],
                           )
                       ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(20, 40, 0, 0),
+                        child: Text(
+                          '할 일 입력',
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Color(0xff666666),
+                          ),
+                        )
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(20, 16, 20, 0),
+                        child: SizedBox(
+                          width: 350,
+                          height: 24,
+                          child: TextField(
+                            decoration: InputDecoration(
+                              labelText: '할 일을 입력해 주세요.',
+                              labelStyle: TextStyle(
+                                color: Color(0xffCCCCCC),
+                                fontSize: 16,
+                              )
+                            ),
+                          ),
+                        )
+                      )
                     ],
                   ),
                 ],
@@ -177,12 +218,13 @@ class HashtagButton extends StatelessWidget {
           overlayColor: getColor(Colors.grey, Colors.teal),
           shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0))),
         ),
-        onPressed: () {},
+        onPressed: () {
+        },
         child: Text(
           text,
           style: TextStyle(
             fontSize: 16,
-            color: Color(0xff999999),
+            color: Color(0xffCCCCCC),
           ),
         )
     );
