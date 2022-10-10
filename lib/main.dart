@@ -35,25 +35,25 @@ class _MyHomePageState extends State<MyHomePage> {
     DateFormat formatter = DateFormat('yyyy년 MM월 dd일');
     return formatter.format(now);
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            FloatingActionButton(
-              child: Icon(Icons.add),
-              onPressed: () => _onButtonPressed(),
-            ),
-            Text(
-              _selectedItem,
-              style: TextStyle(fontSize: 30),
+        body: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                FloatingActionButton(
+                  child: Icon(Icons.add),
+                  onPressed: () => _onButtonPressed(),
+                ),
+                Text(
+                  _selectedItem,
+                  style: TextStyle(fontSize: 30),
+                )
+              ],
             )
-          ],
         )
-      )
     );
   }
 
@@ -102,8 +102,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     ],
                   ),
                   Padding(
-                    padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
-                    child:
+                      padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
+                      child:
                       Icon(Icons.close, color: Color(0xff999999),)
                   ),
                 ],
@@ -133,19 +133,58 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.fromLTRB(20, 16, 0, 0),
-                        child: Row(
-                          children: [
-                            // 해시태그 목록 추가
-                          ],
-                        )
+                          padding: EdgeInsets.fromLTRB(20, 16, 0, 0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              HashtagButton(text: '#기획'),
+                              HashtagButton(text: '#디자인'),
+                              HashtagButton(text: '#개발'),
+                              HashtagButton(text: '#FE'),
+                            ],
+                          )
                       ),
                     ],
                   ),
                 ],
               ),
-          ],);
+            ],);
         }
+    );
+  }
+}
+
+MaterialStateProperty<Color> getColor(Color color, Color colorPressed) {
+  getColor(Set<MaterialState> states) {
+    if(states.contains(MaterialState.pressed)) {
+      return colorPressed;
+    } else {
+      return color;
+    }
+  }
+  return MaterialStateProperty.resolveWith(getColor);
+}
+
+
+class HashtagButton extends StatelessWidget {
+  final String text;
+  const HashtagButton({Key? key, required this.text}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return OutlinedButton(
+        style: ButtonStyle(
+          overlayColor: getColor(Colors.grey, Colors.teal),
+          shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0))),
+        ),
+        onPressed: () {},
+        child: Text(
+          text,
+          style: TextStyle(
+            fontSize: 16,
+            color: Color(0xff999999),
+          ),
+        )
     );
   }
 }
