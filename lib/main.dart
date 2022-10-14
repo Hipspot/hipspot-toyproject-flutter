@@ -293,10 +293,11 @@ class _TestState extends State<Test> {
                                 borderSide: BorderSide(color: Colors.pink)
                             ),
                             hintText: '할 일을 입력해 주세요.',
+                            isDense: true,
+                            contentPadding: EdgeInsets.symmetric(vertical: 4),
                             hintStyle: TextStyle(
                                 color: Color(0xffCCCCCC),
                                 fontSize: 16,
-                                height: 20
                             )
                         ),
                         onChanged: (value) {
