@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todo_list/components/bottom_navigate_menu.dart';
+import 'package:todo_list/components/web_view.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -12,6 +13,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      body: SafeArea(child: TodoWebView()),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.pink,
         onPressed: () {
