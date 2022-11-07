@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class AddTodoButton extends StatelessWidget {
   AddTodoButton(
       {Key? key,
+      required this.sendToWeb,
       required this.text,
       required this.isFilled,
       required this.hashTags})
@@ -10,6 +11,7 @@ class AddTodoButton extends StatelessWidget {
   final String text;
   final bool isFilled;
   final List<String> hashTags;
+  final Function sendToWeb;
 
   @override
   Widget build(context) {
@@ -21,8 +23,9 @@ class AddTodoButton extends StatelessWidget {
         ),
         onPressed: () {
           if (isFilled) {
-            print(text);
-            print(hashTags);
+            // print(text);
+            // print(hashTags);
+            sendToWeb(text);
           } else {
             print("입력된 값이 없습니다");
           }

@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:todo_list/components/bottom_navigate_menu.dart';
 import 'package:todo_list/components/web_view.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -10,10 +13,35 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  late WebViewController _controller;
+  final Completer<WebViewController> returnCompleteController =
+      Completer<WebViewController>();
+
+  List<JavascriptChannel> channels = [
+    JavascriptChannel(
+        name: 'flutterChannel',
+        onMessageReceived: (JavascriptMessage message) {
+          print(message.message);
+        }),
+  ];
+
+  void sendToWeb(String message) async {
+    print(message);
+    await _controller.runJavascriptReturningResult('console.log($message)');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(child: TodoWebView()),
+      body: SafeArea(
+          child: WebView(
+              initialUrl: "http://localhost:3000",
+              javascriptMode: JavascriptMode.unrestricted,
+              onWebViewCreated: (WebViewController webViewcontroller) {
+                _controller = webViewcontroller;
+                returnCompleteController.complete(webViewcontroller);
+              },
+              javascriptChannels: Set.from(channels))),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.pink,
         onPressed: () {
@@ -40,7 +68,7 @@ class _HomePageState extends State<HomePage> {
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(16),
                       topRight: Radius.circular(16))),
-              child: BuildBottomNavigationMenu(),
+              child: BuildBottomNavigationMenu(sendToWeb: sendToWeb),
             ),
           );
         });
