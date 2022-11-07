@@ -7,14 +7,12 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
-
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  late WebViewController _controller;
-  final Completer<WebViewController> returnCompleteController =
+  final Completer<WebViewController> controller =
       Completer<WebViewController>();
 
   List<JavascriptChannel> channels = [
@@ -25,9 +23,10 @@ class _HomePageState extends State<HomePage> {
         }),
   ];
 
-  void sendToWeb(String message) async {
-    print(message);
-    await _controller.runJavascriptReturningResult('console.log($message)');
+  late WebViewController _controller;
+
+  Future<void> sendToWeb(String message) async {
+    await _controller.runJavascript('window.fromFlutter("$message")');
   }
 
   @override
@@ -38,8 +37,8 @@ class _HomePageState extends State<HomePage> {
               initialUrl: "http://localhost:3000",
               javascriptMode: JavascriptMode.unrestricted,
               onWebViewCreated: (WebViewController webViewcontroller) {
+                controller.complete(webViewcontroller);
                 _controller = webViewcontroller;
-                returnCompleteController.complete(webViewcontroller);
               },
               javascriptChannels: Set.from(channels))),
       floatingActionButton: FloatingActionButton(
