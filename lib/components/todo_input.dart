@@ -2,15 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:todo_list/components/add_todo_button.dart';
 
 class TodoInput extends StatefulWidget {
-  const TodoInput({Key? key}) : super(key: key);
+  final Function sendToWeb;
+  const TodoInput({Key? key, required this.sendToWeb}) : super(key: key);
 
   @override
-  State<TodoInput> createState() => _TodoInputState();
+  State<TodoInput> createState() => _TodoInputState(sendToWeb: sendToWeb);
 }
 
 class _TodoInputState extends State<TodoInput> {
   bool _isFilled = false;
+  final Function sendToWeb;
   var _inputController = TextEditingController();
+  _TodoInputState({required this.sendToWeb});
 
   @override
   Widget build(BuildContext context) {
@@ -71,6 +74,7 @@ class _TodoInputState extends State<TodoInput> {
                         text: _inputController.text,
                         isFilled: _isFilled,
                         hashTags: ["1", "2", "3"], //나중에 해시태그값 전달해주어야함
+                        sendToWeb: sendToWeb,
                       )),
                 ),
               ],
