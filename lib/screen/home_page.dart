@@ -40,7 +40,9 @@ class _HomePageState extends State<HomePage> {
                 controller.complete(webViewcontroller);
                 _controller = webViewcontroller;
               },
-              javascriptChannels: Set.from(channels))),
+              javascriptChannels: Set.from(channels)
+          )
+      ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.pink,
         onPressed: () {

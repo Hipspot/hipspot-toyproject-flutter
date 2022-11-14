@@ -2,14 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:todo_list/components/web_view.dart';
 import 'package:todo_list/screen/home_page.dart';
 
+import 'API/server_get.dart';
+
 void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MyApp extends StatefulWidget {
+  const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  late Future<Post> post;
+
+  @override
+  void initState() {
+    super.initState();
+    post = fetchPost();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
