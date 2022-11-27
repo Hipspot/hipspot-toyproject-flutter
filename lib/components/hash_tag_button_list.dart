@@ -1,21 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:todo_list/model/hash_tag_model.dart';
+import 'package:todo_list/type/tag_type.dart';
 import 'package:todo_list/utils/getColor.dart';
 
 class HashTagButtonList extends StatefulWidget {
-  final List<String> hashTagList;
-
-  const HashTagButtonList({Key? key, required this.hashTagList})
+  final TagType selectedTag;
+  final Function setSelectedTag;
+  final List<HashTagModel> hashTagState;
+  HashTagButtonList(
+      {Key? key,
+      required this.selectedTag,
+      required this.setSelectedTag,
+      required this.hashTagState})
       : super(key: key);
 
   @override
-  State<HashTagButtonList> createState() =>
-      _HashtagButtonListState(hashTagList: hashTagList);
+  State<HashTagButtonList> createState() => _HashtagButtonListState();
 }
 
 class _HashtagButtonListState extends State<HashTagButtonList> {
-  final List<String> hashTagList;
-
-  _HashtagButtonListState({required this.hashTagList});
   @override
   Widget build(context) {
     return Column(
@@ -48,10 +51,14 @@ class _HashtagButtonListState extends State<HashTagButtonList> {
                   spacing: 0, // 좌우 간격
                   runSpacing: 6, // 상하 간격
                   children: [
-                    for (var item in hashTagList)
+                    for (var item in widget.hashTagState)
                       Padding(
                           padding: EdgeInsets.fromLTRB(0, 0, 12, 0),
-                          child: HashtagButton(text: item))
+                          child: HashtagButton(
+                              tagViewText: item.tagViewText,
+                              tagType: item.tagType,
+                              isSelected: item.isSelected,
+                              setSelectedTag: widget.setSelectedTag))
                   ],
                 ),
               ],
@@ -62,17 +69,18 @@ class _HashtagButtonListState extends State<HashTagButtonList> {
 }
 
 // Hashtag Button
-class HashtagButton extends StatefulWidget {
-  final String text;
-  const HashtagButton({Key? key, required this.text}) : super(key: key);
-
-  @override
-  State<HashtagButton> createState() => _HashtagButtonState();
-}
-
-class _HashtagButtonState extends State<HashtagButton> {
-  bool _isPressed = false;
-
+class HashtagButton extends StatelessWidget {
+  final String tagViewText;
+  final TagType tagType;
+  final Function setSelectedTag;
+  final bool isSelected;
+  HashtagButton(
+      {Key? key,
+      required this.tagViewText,
+      required this.setSelectedTag,
+      required this.isSelected,
+      required this.tagType})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return OutlinedButton(
@@ -81,17 +89,15 @@ class _HashtagButtonState extends State<HashtagButton> {
             shape: MaterialStateProperty.all(RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(30.0))),
             side: MaterialStateProperty.all(BorderSide(
-                color: _isPressed ? Color(0xffE44269) : Color(0xffCCCCCC)))),
+                color: isSelected ? Color(0xffE44269) : Color(0xffCCCCCC)))),
         onPressed: () {
-          setState(() {
-            _isPressed = !_isPressed;
-          });
+          setSelectedTag(tagType);
         },
         child: Text(
-          widget.text, // Getting parameters from HashtagState class
+          tagViewText, // Getting parameters from HashtagState class
           style: TextStyle(
             fontSize: 16,
-            color: _isPressed ? Color(0xffE44269) : Color(0xffCCCCCC),
+            color: isSelected ? Color(0xffE44269) : Color(0xffCCCCCC),
           ),
         ));
   }

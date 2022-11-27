@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:todo_list/components/web_view.dart';
 import 'package:todo_list/screen/home_page.dart';
 
 void main() {
@@ -14,6 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         title: 'Flutter Demo',
+        navigatorKey: HomePage.naviagatorState,
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),

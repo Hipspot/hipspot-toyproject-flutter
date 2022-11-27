@@ -1,19 +1,44 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:todo_list/components/add_todo_button.dart';
+import 'package:todo_list/components/hash_tag_button_list.dart';
+import 'package:todo_list/dto/send_to_web_message_type.dart';
+import 'package:todo_list/model/hash_tag_model.dart';
+import 'package:todo_list/type/tag_type.dart';
 
 class TodoInput extends StatefulWidget {
   final Function sendToWeb;
   const TodoInput({Key? key, required this.sendToWeb}) : super(key: key);
 
   @override
-  State<TodoInput> createState() => _TodoInputState(sendToWeb: sendToWeb);
+  State<TodoInput> createState() => _TodoInputState();
 }
 
 class _TodoInputState extends State<TodoInput> {
   bool _isFilled = false;
-  final Function sendToWeb;
-  var _inputController = TextEditingController();
-  _TodoInputState({required this.sendToWeb});
+  TagType _selectedTag = TagType.pm;
+  final _inputController = TextEditingController();
+
+  final List<HashTagModel> _hashTagState = [
+    HashTagModel(tagViewText: "#기획", isSelected: true, tagType: TagType.pm),
+    HashTagModel(
+        tagViewText: "#디자인", isSelected: false, tagType: TagType.design),
+    HashTagModel(tagViewText: "#BE", isSelected: false, tagType: TagType.be),
+    HashTagModel(tagViewText: "#FE", isSelected: false, tagType: TagType.fe),
+    HashTagModel(
+        tagViewText: "#모바일", isSelected: false, tagType: TagType.mobile),
+  ];
+
+  void setSelectedTag(tag) => {
+        setState(() {
+          _selectedTag = tag;
+          _hashTagState
+              .where((tagState) => tag == tagState.tagType
+                  ? tagState.isSelected = true
+                  : tagState.isSelected = false)
+              .toList();
+        }),
+      };
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +46,10 @@ class _TodoInputState extends State<TodoInput> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          HashTagButtonList(
+              hashTagState: _hashTagState,
+              selectedTag: _selectedTag,
+              setSelectedTag: setSelectedTag),
           Column(
             children: [
               Padding(
@@ -71,11 +100,11 @@ class _TodoInputState extends State<TodoInput> {
                       width: double.infinity,
                       height: 52,
                       child: AddTodoButton(
-                        text: _inputController.text,
-                        isFilled: _isFilled,
-                        hashTags: ["1", "2", "3"], //나중에 해시태그값 전달해주어야함
-                        sendToWeb: sendToWeb,
-                      )),
+                          title: _inputController.text,
+                          isFilled: _isFilled,
+                          tag: _selectedTag, //나중에 해시태그값 전달해주어야함
+                          sendToWeb: widget.sendToWeb,
+                          type: SendToWebMessageType.createTodo)),
                 ),
               ],
             ),

@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:todo_list/components/hash_tag.dart';
 import 'package:todo_list/components/todo_input.dart';
 import 'package:todo_list/utils/getToday.dart';
 
 class BuildBottomNavigationMenu extends StatelessWidget {
-  final List<String> hashTagList = ["#기획", "#디자인", "#개발", "#FE", "#BE", "#모바일"];
   final Function sendToWeb;
   BuildBottomNavigationMenu({Key? key, required this.sendToWeb})
       : super(key: key);
@@ -20,7 +18,6 @@ class BuildBottomNavigationMenu extends StatelessWidget {
           thickness: 1,
           color: Color(0xffF2F2F2),
         ),
-        HashTagButtonList(hashTagList: hashTagList),
         TodoInput(sendToWeb: sendToWeb),
       ],
     );
