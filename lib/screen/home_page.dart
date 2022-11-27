@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:todo_list/components/bottom_navigate_menu.dart';
 import 'package:todo_list/model/transfer_message_model.dart';
-import 'package:todo_list/type/open_mode_type.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class HomePage extends StatefulWidget {
